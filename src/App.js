@@ -1,92 +1,106 @@
 import React, { useState } from 'react';
-
-const api=
-{
-  key: "2cd096ae17a5551434eaf52e74deeb56",
-  base: "https://api.openweathermap.org/data/2.5/"
-}
-const dateBuilder = (d) => {
-  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-  let day = days[d.getDay()];
-  let date = d.getDate();
-  let month = months[d.getMonth()];
-  let year = d.getFullYear();
-
-  return `${day} ${date} ${month} ${year}`
-}
+import axios from 'axios';
 
 function App() 
 {
-
   const [query, setQuery] = useState('');
-  const [weather, setWeather] = useState(null); 
-  const [error, setError] = useState(null); 
-  const search=(e) =>
+  const [food, setFood] = useState( null
+    // { calories: '',
+    // carbohydrates_total_g: '',
+    // cholesterol_mg: '',
+    // fat_saturated_g: '',
+    // fat_total_g: '',
+    // fiber_g: '',
+    // name: '',
+    // potassium_mg: '',
+    // protein_g: '',
+    // serving_size_g: '',
+    // sodium_mg: '',
+    // sugar_g: '', }
+    );
+  const [error, setError] = useState(''); 
+
+  var options = {
+    method: 'GET',
+    url: 'https://calorieninjas.p.rapidapi.com/v1/nutrition',
+    params: {query: query},
+    headers: {
+      'x-rapidapi-host': 'calorieninjas.p.rapidapi.com',
+      'x-rapidapi-key': '2b42e0b829msh548ad463fe29e98p185282jsnad0888fb5232'
+    }
+  };
+  const search=async(e) =>
   {
     if (e.key === "Enter") {
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-        .then((res) => 
+      await axios.request(options)
+      .then((response) => 
+      {
+        const data= (response.data.items);
+        if(data.length)
         {
-         if(res.status!==200) 
-         {
-           throw new Error();
-         }
-         return res.json();
-        }        
-        )
-        .then((result) => {
-          setWeather(result);          
-          setQuery('');
-          setError(null);
-          console.log(result);
-        })
-        .catch((err)=> 
+         const d= data[0];
+
+         setFood(
+          { 
+          calories: d.calories,
+          carbohydrates_total_g: d.carbohydrates_total_g,
+          cholesterol_mg: d.cholesterol_mg,
+          fat_saturated_g: d.fat_saturated_g,
+          fat_total_g: d.fat_total_g,
+          fiber_g: d.fiber_g,
+          potassium_mg: d.potassium_mg,
+          protein_g: d.protein_g,
+          sodium_mg: d.sodium_mg,
+          name: d.name,
+          sugar_g: d.sugar_g, }
+         );
+         setError(null);
+        }
+        else
         {
-          setQuery('');
-          setError("No Such City");
-          setWeather(null);
-        })
-    }
+          setError("Food item not found. Try Again!");
+          setFood(null);      
+        }
+      }
+      )
+      .catch(function (error) {
+        setFood(null);
+        setError(error);
+      });
+    }         
   }
   return (
-    <div className={ (weather && (weather.main.temp>17)) ? 'app summer' : 'app'}>
+    <div className="app">
       <main>
         <div className="search-box">
           <input 
-          type="text" placeholder="Search City"
+          type="text" placeholder="Enter Food Item"
           onChange= {(e)=> setQuery(e.target.value)}
           value= {query}
           onKeyPress= {search}
           />
         </div>
-
-        {
-          error && 
-          <div className="location">
-            No such City exist
-          </div>
-        }
-
-        {
-        weather && 
-        (
         <div>
-          <div className="location-box">
-            <div className="location">{weather.name}, {weather.sys.country}</div>
-            <div className="date">{dateBuilder(new Date())}</div>
+          {
+            food && 
+            <div className="contents">
+              <h1> {food.name.charAt(0).toUpperCase() + food.name.slice(1)} </h1>
+              <ul className="list" >
+              <li> Calories : {food.calories} </li>
+              <li> Carbohydrates in gram : {food.carbohydrates_total_g} </li>
+              <li> Cholesterol in mg : {food.cholesterol_mg} </li>
+              <li> Carbohydrates in gram : {food.cholesterol_mg} </li>
+              <li> Saturated fat in gram : {food.fat_saturated_g} </li>
+              <li> Total fat in gram : {food.fat_total_g} </li>
+              <li> Fiber in gram : {food.fiber_g} </li>
+              <li> Potassium in mg : {food.potassium_mg} </li>
+              <li> Sodium in mg : {food.sodium_mg} </li>
+              <li> Sugar in gram : {food.sugar_g} </li>   
+              </ul>  
+            </div>       
+          } 
           </div>
-          <div className="weather-box">
-            <div className="temp">
-              {Math.round(weather.main.temp)}°C
-            </div>
-            <div className="weather">{weather.weather[0].main}</div>
-          </div>
-        </div>
-        )         
-        }
-
+        <div>{error && <div className="contents">{error} </div>} </div>
       </main>
     </div>
   );

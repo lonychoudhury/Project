@@ -17,19 +17,14 @@ code {
 }
 .app
 {
-  background-image: url('./images/winter.jpg');
+  background-image: url('./images/foodbg.jpg');
   background-size: cover;
   background-position: bottom;
-  opacity: 0.7;
+  opacity: 0.6;
   min-height: 100vh;
-  padding: 10%;
-  transition: 0.4s ease;
+  padding: 7%;
+  padding-top: 3%;
 }
-.summer
-{
-  background-image: url('./images/summer.jpg');
-}
-
 .search-box
 {
   margin-bottom: 10%;
@@ -58,45 +53,31 @@ input:focus
 {
   background: rgb(240, 246, 248);
 }
-.location
-{
- font-size: 32px;
- font-weight: 500;
- text-align: center;
- background-color: rgba(255, 255, 255, 0.2);
-}
-.date
-{
-  font-size: 20px;
-  font-weight: 400;
-  text-align: center;
-  font-style: italic;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-.whether-box
+.contents
 {
   text-align: center;
-}
-.temp
-{
-  margin: 30px auto;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 15px 25px;  
-  text-align: center;
-  max-width: 300px;
-
-  color: rgb(12, 15, 15);
-  font-size: 102px;
-  font-weight: 900;
-  box-shadow: 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-.weather {
-  font-size: 30px;
+  background-color: rgb(245, 237, 237);
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
+  border-radius: 7%;
   font-weight: 500;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.2);
-  max-width: 300px;
-  margin:auto;
+  font-size: 23px;
+  color: red;
+}
+.list
+{
+  list-style: none;
+  font-size: 23px;
+  font-weight: 300;
+  text-align: left;
+  opacity: 1;
+  margin-left: 20%;
+  margin-right: 20%;
+  color: black;
+}
+h1
+{
+  font-size: 40px;
+  color: rgb(64, 80, 233);
 }
