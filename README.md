@@ -1,7 +1,7 @@
 # HealthPlate
 
 ## Description
-A web application where we can search a food item and get the amount of calories and other nutrients present in it.
+A web application where we can search a food item (it can be fruits, vegetables, cereals, meat or any other dish/eatables) and get the amount of calories and other nutrients present in it.
 
 ## Motivation
 
