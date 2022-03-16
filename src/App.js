@@ -96,8 +96,7 @@ function App()
               <li> Potassium in mg : {food.potassium_mg} </li>
               <li> Sodium in mg : {food.sodium_mg} </li>
               <li> Sugar in gram : {food.sugar_g} </li>   
-              </ul>  
-              <div className="note"> Note: The results are per 100 grams of the food item.</div>
+              </ul>
             </div>       
           } 
           </div>
